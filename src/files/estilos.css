@@ -17,10 +17,31 @@ and open the template in the editor.
     -fx-background-color: #cccccc;
 }
 
+.Button:hover {
+    -fx-text-fill: whitesmoke;
+}
+
 .visualizeButton {
     -fx-background-color: #66ff66;
 }
 
+.visualizeButton:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: #66ff66;
+    -fx-stroke-width: 1px;
+    -fx-border-color: #66ff66;
+    -fx-border-width: 2px;
+    -fx-border-style: dotted;
+    -fx-border-radius: 3px;
+}
+
 .ExitButton {
     -fx-background-color: #ff3333;
+}
+
+.ExitButton:hover{
+    -fx-text-fill: #ff3333;
+    -fx-background-color: transparent;
+    -fx-border-radius: 3px;
+    -fx-border-color: #ff3333;
 }

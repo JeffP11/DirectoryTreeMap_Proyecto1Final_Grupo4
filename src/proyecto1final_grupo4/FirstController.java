@@ -46,15 +46,15 @@ public class FirstController implements Initializable {
         dc.setInitialDirectory(new File("src"));
         
         File selectedDir = dc.showDialog(null);
-        double size = selectedDir.length();
-        if (selectedDir != null) {
-            listView.getItems().add(selectedDir.getName());
+        double size;
+        if (selectedDir == null) {
+            System.out.println("Not directory selected");
+        } else {
+            size = selectedDir.length();
             listView.getItems().add(selectedDir.getAbsolutePath());
             visualize.setVisible(true);
             visualize.setDisable(false);
             System.out.println("size: " + size + " " + size/1024);
-        } else {
-            System.out.println("Directory not valid");
         }
     }
     
