@@ -12,9 +12,9 @@
         <URL value="@/files/estilos.css" />
     </stylesheets>
    <children>
-      <Text layoutX="32.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VISUALIZE TREEMAP Proyecto Final Grupo 4" textAlignment="CENTER" wrappingWidth="219.9999755859376">
+      <Text fill="WHITE" layoutX="23.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VISUALIZE TREEMAP Proyecto Final Grupo 4" textAlignment="CENTER" wrappingWidth="237.5999511718751">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Text>
       <Button fx:id="directory" layoutX="55.0" layoutY="152.0" mnemonicParsing="false" onAction="#directoryButtonAction" prefHeight="26.0" prefWidth="174.0" styleClass="Button" stylesheets="@../files/estilos.css" text="Select directory" textAlignment="CENTER" />
