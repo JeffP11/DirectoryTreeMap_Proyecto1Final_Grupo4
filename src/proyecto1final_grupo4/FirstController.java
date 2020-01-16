@@ -5,10 +5,13 @@
  */
 package proyecto1final_grupo4;
 
+import Clases.Directory;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -43,6 +46,8 @@ public class FirstController implements Initializable {
     @FXML
     private ListView listView;
 
+    LinkedList<Directory> treeMap;
+
     public void directoryButtonAction(ActionEvent event) {
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(new File("src"));
@@ -53,22 +58,49 @@ public class FirstController implements Initializable {
             System.out.println("Not directory selected");
         } else {
             double size = 0;
-            System.out.println("Carpeta: " + selectedDir.getName() + "| size: " + recorrerDirectorio(selectedDir.listFiles(), size) + " kb");
+            Directory dir = new Directory(selectedDir.getName());
+            dir.setSize(redondeo(recorrerDirectorio(selectedDir.listFiles(), size, dir), 2));
+            //System.out.println("Carpeta: " + selectedDir.getName() + "| size: " + dir.getSize() + " kb");
+
+            treeMap = new LinkedList<Directory>();
+            treeMap.add(dir);
+            System.out.println("Tamaño: " + treeMap.size());
+
+            iterar(treeMap);
         }
     }
 
-    public double recorrerDirectorio(File[] content, double total) {
-        
+    public void iterar(LinkedList<Directory> treeMap) {
+        Iterator it = treeMap.iterator();
+        while (it.hasNext()) {
+            Directory next = (Directory) it.next();
+
+            if (next.getDirectorios().size() > 0) {
+                System.out.println("Carpeta: " + next.getName() + "| size: " + next.getSize());
+                iterar(next.getDirectorios());
+            } else {
+                System.out.println("--> Archivo: " + next.getName() + "| size: " + next.getSize());
+            }
+        }
+    }
+
+    public double recorrerDirectorio(File[] content, double total, Directory dirt) {
+
         for (File file : content) {
-            if (isFile(file)){
-                System.out.println("--> Archivo: " + file.getName() + "| size: " + redondeo(file.length() / 1024.0, 2) + " kb");
+            if (isFile(file)) {
                 total += redondeo(file.length() / 1024.0, 2);
-            }else{
+                Directory direct = new Directory(file.getName(), redondeo(file.length() / 1024.0, 2));
+                //System.out.println("--> Archivo: " + direct.getName() + "| size: " + direct.getSize() + " kb");
+                dirt.getDirectorios().add(direct);
+            } else {
                 double tam = 0.0;
-                double size = redondeo(recorrerDirectorio(file.listFiles(), tam),2);
-                System.out.println("Carpeta: " + file.getName() + "| size: " + size + " kb");
+                Directory dir = new Directory(file.getName());
+                double size = redondeo(recorrerDirectorio(file.listFiles(), tam, dir), 2);
+                dir.setSize(size);
+                //System.out.println("Carpeta: " + dir.getName() + "| size: " + dir.getSize() + " kb");
+                dirt.getDirectorios().add(dir);
                 total += size;
-            }    
+            }
         }
         return total;
     }

@@ -5,6 +5,9 @@
  */
 package Clases;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 
 /**
@@ -13,13 +16,19 @@ import java.util.LinkedList;
  */
 public class Directory {
     private String name;
-    private Double size;
-    private LinkedList<Directory> listFiles;
+    private Double tamaño;
+    private LinkedList<Directory> directorios;
 
-    public Directory(String name, Double size, LinkedList<Directory> listFiles) {
+    public Directory(String name, Double tamaño) {
         this.name = name;
-        this.size = size;
-        this.listFiles = listFiles;
+        this.tamaño = tamaño;
+        this.directorios = new LinkedList<Directory>();
+    }
+    
+    public Directory(String name) {
+        this.name = name;
+        this.tamaño = 0.0;
+        this.directorios = new LinkedList<Directory>();
     }
 
     public String getName() {
@@ -31,26 +40,24 @@ public class Directory {
     }
 
     public Double getSize() {
-        return size;
+        return tamaño;
     }
 
     public void setSize(Double size) {
-        this.size = size;
+        this.tamaño = size;
     }
 
-    public LinkedList<Directory> getListFiles() {
-        return listFiles;
+    public LinkedList<Directory> getDirectorios() {
+        return directorios;
     }
 
-    public void setListFiles(LinkedList<Directory> listFiles) {
-        this.listFiles = listFiles;
+    public void setDirectorios(LinkedList<Directory> directorios) {
+        this.directorios = directorios;
     }
 
     @Override
     public String toString() {
-        return "Directory{" + "name=" + name + ", size=" + size + ", listFiles=" + listFiles + '}';
+        return "Directory{" + "name=" + name + ", size=" + tamaño + ", directorios=" + directorios + '}';
     }
-    
-    
     
 }
