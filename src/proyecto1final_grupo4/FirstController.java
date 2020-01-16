@@ -64,24 +64,38 @@ public class FirstController implements Initializable {
 
             treeMap = new LinkedList<Directory>();
             treeMap.add(dir);
-            System.out.println("Tamaño: " + treeMap.size());
-
-            iterar(treeMap);
+            System.out.println("---------- TreeMap ---------");
+            iterar(treeMap,0);
         }
     }
 
-    public void iterar(LinkedList<Directory> treeMap) {
+    public void iterar(LinkedList<Directory> treeMap,int num) {
         Iterator it = treeMap.iterator();
         while (it.hasNext()) {
             Directory next = (Directory) it.next();
 
             if (next.getDirectorios().size() > 0) {
-                System.out.println("Carpeta: " + next.getName() + "| size: " + next.getSize());
-                iterar(next.getDirectorios());
+                System.out.println(identar(num)+"Carpeta: " + next.getName() + "| size: " + next.getSize());
+                iterar(next.getDirectorios(),num+2);
             } else {
-                System.out.println("--> Archivo: " + next.getName() + "| size: " + next.getSize());
+                System.out.println(identar(num)+"Archivo: " + next.getName() + "| size: " + next.getSize());
             }
         }
+    }
+
+    public String identar(int num) {
+        char[] carac = new char[num];
+        String iden = "";
+        if (num > 0) {
+            for (int i = 0; i < num; i++) {
+                carac[i] = '-';
+            }
+            iden = new String(carac);
+        }else{
+            return iden;
+        }
+         
+        return iden;
     }
 
     public double recorrerDirectorio(File[] content, double total, Directory dirt) {
