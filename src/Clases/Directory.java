@@ -52,5 +52,8 @@ public class Directory {
     public String toString() {
         return "Directory{" + "name=" + name + ", size=" + tamaño + ", directorios=" + directorios + '}';
     }
-
+    
+    public boolean isDirectory() {
+        return !this.getDirectorios().isEmpty();
+    }
 }

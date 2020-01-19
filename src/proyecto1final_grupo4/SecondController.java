@@ -202,13 +202,13 @@ public class SecondController implements Initializable {
         lb.setStyle("-fx-font-weight: bold; -fx-font-size: 15");
         DecimalFormat two = new DecimalFormat("0.00");
         if (amount < 1024) {
-            lb.setText("(" + amount + " Bytes" + ")");
+            lb.setText("(" + amount + " KB" + ")");
         } else if (amount > 1024 && amount < 1024 * 1024) {
-            lb.setText("(" + two.format(amount / 1024) + " KB" + ")");
+            lb.setText("(" + two.format(amount / 1024) + " MB" + ")");
         } else if (amount > 1024 * 1024 && amount < 1024 * 1024) {
-            lb.setText("(" + two.format(amount / 1024 * 1024) + " MB" + ")");
+            lb.setText("(" + two.format(amount / 1024 * 1024) + " GB" + ")");
         } else {
-            lb.setText("(" + two.format(amount / 1024 * 1024 * 1024) + " GB" + ")");
+            lb.setText("(" + two.format(amount / 1024 * 1024 * 1024) + " TB" + ")");
         }
     }
 
