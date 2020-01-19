@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
- * @author jeffg
+ * Proyecto Final - 1T 2019 / VisualizaciÃ³n de Directorios usando Treemaps
+ * @author GRUPO 4
  */
 public class Proyecto1Final_Grupo4 extends Application {
 
