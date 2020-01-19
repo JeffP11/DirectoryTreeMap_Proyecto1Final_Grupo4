@@ -26,7 +26,7 @@ public class Proyecto1Final_Grupo4 extends Application {
         Scene scene = new Scene(root, 960, 741.4);
         makeStageDrageable(root, primaryStage, scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.getIcons().add(new Image("\\files\\treemap.png"));
+        //primaryStage.getIcons().add(new Image("\\files\\treemap.png")); //GENERA ERROR EN MACOS
         primaryStage.setScene(scene);
         primaryStage.show();
     }
