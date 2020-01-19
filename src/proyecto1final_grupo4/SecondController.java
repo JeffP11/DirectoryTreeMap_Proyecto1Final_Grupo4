@@ -56,7 +56,7 @@ public class SecondController implements Initializable {
     private AnchorPane center;
     @FXML
     private Button save;
-    private static int contador = 0;
+    
     LinkedList<Directory> treeMap;
 
     private double xOffset = 0;
@@ -131,9 +131,9 @@ public class SecondController implements Initializable {
         }
         if (result) {
             Alert dialog = new Alert(AlertType.INFORMATION);
-            dialog.setTitle("ConfirmaciÃ³n");
+            dialog.setTitle("Confirmación");
             dialog.setHeaderText(null);
-            dialog.setContentText("Captura guardada con Ã©xito!");
+            dialog.setContentText("Captura guardada con éxito!");
             dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
 
