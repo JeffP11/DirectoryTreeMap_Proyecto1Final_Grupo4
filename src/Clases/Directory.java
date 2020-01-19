@@ -1,13 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Clases;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.LinkedList;
 
 /**
@@ -15,6 +7,7 @@ import java.util.LinkedList;
  * @author alexispoveda
  */
 public class Directory {
+
     private String name;
     private Double tamaño;
     private LinkedList<Directory> directorios;
@@ -24,7 +17,7 @@ public class Directory {
         this.tamaño = tamaño;
         this.directorios = new LinkedList<Directory>();
     }
-    
+
     public Directory(String name) {
         this.name = name;
         this.tamaño = 0.0;
@@ -59,5 +52,5 @@ public class Directory {
     public String toString() {
         return "Directory{" + "name=" + name + ", size=" + tamaño + ", directorios=" + directorios + '}';
     }
-    
+
 }

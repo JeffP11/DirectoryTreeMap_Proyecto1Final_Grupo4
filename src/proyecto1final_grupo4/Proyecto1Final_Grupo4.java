@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proyecto1final_grupo4;
 
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,12 +22,11 @@ public class Proyecto1Final_Grupo4 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("first.fxml"));
-        Scene scene = new Scene(root, 600, 400);
-        makeStageDrageable(root, primaryStage);
-        scene.setFill(Color.TRANSPARENT);
-        primaryStage.getIcons().add(new Image("\\files\\treemap.png"));
+        Parent root = FXMLLoader.load(getClass().getResource("second.fxml"));
+        Scene scene = new Scene(root, 960, 741.4);
+        makeStageDrageable(root, primaryStage, scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.getIcons().add(new Image("\\files\\treemap.png"));
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -45,7 +38,8 @@ public class Proyecto1Final_Grupo4 extends Application {
         launch(args);
     }
 
-    public void makeStageDrageable(Parent root, Stage primaryStage) {
+    public void makeStageDrageable(Parent root, Stage primaryStage, Scene scene) {
+        scene.setFill(Color.TRANSPARENT);
         root.setOnMousePressed((MouseEvent event) -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
