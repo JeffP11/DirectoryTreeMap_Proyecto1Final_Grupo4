@@ -31,13 +31,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -45,7 +42,7 @@ import javafx.stage.StageStyle;
 /**
  * FXML Controller class
  *
- * @author jeffg
+ * @author GRUPO4
  */
 public class SecondController implements Initializable {
 
@@ -59,7 +56,7 @@ public class SecondController implements Initializable {
     private AnchorPane center;
     @FXML
     private Button save;
-
+    private static int contador = 0;
     LinkedList<Directory> treeMap;
 
     private double xOffset = 0;
@@ -134,21 +131,17 @@ public class SecondController implements Initializable {
         }
         if (result) {
             Alert dialog = new Alert(AlertType.INFORMATION);
-            dialog.setTitle("Confirmación");
+            dialog.setTitle("ConfirmaciÃ³n");
             dialog.setHeaderText(null);
-            dialog.setContentText("Captura guardada con éxito!");
+            dialog.setContentText("Captura guardada con Ã©xito!");
             dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
-            
+
         } else {
 
         }
     }
-
-    public boolean isFile(File file) {
-        return !file.isDirectory();
-    }
-
+    
     public double redondeo(double tam, int decimales) {
         return new BigDecimal(tam)
                 .setScale(decimales, RoundingMode.HALF_EVEN).doubleValue();
@@ -182,6 +175,10 @@ public class SecondController implements Initializable {
             }
         }
     }
+    
+    public boolean isFile(File file) {
+        return file.isFile();
+    }
 
     public double recorrerDirectorio(File[] content, double total, Directory dirt) {
         for (File file : content) {
@@ -213,7 +210,6 @@ public class SecondController implements Initializable {
         } else {
             lb.setText("(" + two.format(amount / 1024 * 1024 * 1024) + " GB" + ")");
         }
-
     }
 
     public Color getRandomColor() {
@@ -223,6 +219,22 @@ public class SecondController implements Initializable {
         float b = rd.nextFloat();
         Color randomColor = new Color(r, g, b, 1);
         return randomColor;
+    }
+
+    public double getSize(File dir) {
+        double size = 0.0;
+        File[] files = dir.listFiles();
+        for (File f : files) {
+            if (f.isFile()) {
+                size += f.length();
+            } else {
+                File[] fileB = f.listFiles();
+                for (File fl : fileB) {
+                    size += fl.length();
+                }
+            }
+        }
+        return size;
     }
 
     @FXML
@@ -245,83 +257,50 @@ public class SecondController implements Initializable {
 
         SizeTotal.getChildren().addAll(graphicSizeTotal, extensionSize);
         container.getChildren().addAll(SizeTotal, graphics);
-        Painting(graphics, "h", treeMap);
+        Painting(treeMap.getFirst(), graphics, 960.0, 650.0, "h");
         center.getChildren().addAll(container);
         save.setDisable(false);
     }
 
-    public void Painting(Pane graphics, String box, LinkedList<Directory> treeMap) {
-        String type = box;
-        if (!treeMap.isEmpty()) {
-            double sizetotal = treeMap.getFirst().getSize();
-            treeMap.getFirst().getDirectorios().forEach(directory -> {
-                if (!directory.getDirectorios().isEmpty()) {
-                    if (type.equals("h")) {
-                        VBox paneH = new VBox();
-                        double factor1 = graphics.getMaxWidth() * (directory.getSize() / sizetotal);
-                        double factor2 = graphics.getMaxHeight();
-                        Rectangle rec = new Rectangle(factor1, factor2);
-                        rec.setFill(getRandomColor());
-                        paneH.getChildren().add(rec);
-                        graphics.getChildren().add(paneH);
-                        Painting(paneH, "v", directory.getDirectorios());
-                    } else {
-                        HBox paneV = new HBox();
-                        double factor1 = graphics.getMaxWidth();
-                        double factor2 = graphics.getMaxHeight() * (directory.getSize() / sizetotal);
-                        Rectangle rec = new Rectangle(factor1, factor2);
-                        rec.setFill(getRandomColor());
-                        paneV.getChildren().add(rec);
-                        graphics.getChildren().add(rec);
-                        Painting(paneV, "h", directory.getDirectorios());
-                    }
-                } else {
-                    Rectangle rec = new Rectangle(graphics.getMaxWidth(), graphics.getMinHeight());
-                    rec.setFill(getRandomColor());
-                    graphics.getChildren().add(rec);
-                }
-            });
-
-        } else {
-            Rectangle colors = new Rectangle(graphics.getWidth(), graphics.getHeight(),
-                    new LinearGradient(0f, 1f, 1f, 0f, true, CycleMethod.NO_CYCLE, new Stop[]{
-                new Stop(0, Color.web("#f8bd55")),
-                new Stop(0.14, Color.web("#c0fe56")),
-                new Stop(0.28, Color.web("#5dfbc1")),
-                new Stop(0.43, Color.web("#64c2f8")),
-                new Stop(0.57, Color.web("#be4af7")),
-                new Stop(0.71, Color.web("#ed5fc2")),
-                new Stop(0.85, Color.web("#ef504c")),
-                new Stop(1, Color.web("#f2660f")),}));
-            colors.widthProperty().bind(graphics.widthProperty());
-            colors.heightProperty().bind(graphics.heightProperty());
-            graphics.getChildren().add(colors);
-        }
-    }
-
-    /*private void llenar() {
-        System.out.println("primero: " + this.treeMap.get(0).getDirectorios().size());
-
-        int divisiones = this.treeMap.get(0).getDirectorios().size();
-        double tamanio = this.treeMap.get(0).getSize();
-        HBox hbox = new HBox(divisiones);
-        double espacio = 960 - (5 * (divisiones - 1));
-        for (int i = 0; i < divisiones; i++) {
-            double peso = this.treeMap.get(0).getDirectorios().get(i).getSize();
-            double porcentaje = (peso / tamanio);
-            double ancho = porcentaje * espacio;
-            double alto = 650;
-            Rectangle rectangle = new Rectangle(0, 0, ancho, alto);
-            if (this.treeMap.get(0).getDirectorios().get(i).getDirectorios().size() > 0) {
-                System.out.println("Carpeta: " + this.treeMap.get(0).getDirectorios().get(i).getName() + "| size: " + this.treeMap.get(0).getDirectorios().get(i).getSize());
-                rectangle.setFill(Color.GRAY);
-            } else {
-                System.out.println("--> Archivo: " + this.treeMap.get(0).getDirectorios().get(i).getName() + "| size: " + this.treeMap.get(0).getDirectorios().get(i).getSize());
-                rectangle.setFill(Color.WHEAT);
+    public void Painting(Directory directory, Pane pane, double width, double height, String type) {
+        LinkedList<Directory> selected = directory.getDirectorios();
+        double size = directory.getSize();
+        selected.forEach((f) -> {
+            if (!f.isDirectory() && type.equals("h")) {
+                double fact1 = width * (f.getSize() / size);
+                double fact2 = height;
+                Rectangle shape = new Rectangle(fact1, fact2);
+                shape.setFill(getRandomColor());
+                shape.setStrokeType(StrokeType.INSIDE);
+                shape.setStroke(Color.WHITE);
+                VBox temp = new VBox();
+                temp.getChildren().addAll(shape);
+                pane.getChildren().add(temp);
+            } else if (!f.isDirectory() && type.equals("v")) {
+                double fact1 = width;
+                double fact2 = height * (f.getSize() / size);
+                Rectangle shape = new Rectangle(fact1, fact2);
+                shape.setFill(getRandomColor());
+                shape.setStrokeType(StrokeType.INSIDE);
+                shape.setStroke(Color.WHITE);
+                HBox temp = new HBox();
+                temp.getChildren().addAll(shape);
+                pane.getChildren().add(temp);
+            } else if (f.isDirectory() && type.equals("h")) {
+                double size2 = f.getSize();
+                VBox box = new VBox();
+                box.setMaxWidth(width * (size2 / size));
+                box.setMaxHeight(height);
+                Painting(f, box, box.getMaxWidth(), box.getMaxHeight(), "v");
+                pane.getChildren().add(box);
+            } else if (f.isDirectory() && type.equals("v")) {
+                double size2 = f.getSize();
+                HBox box = new HBox();
+                box.setMaxWidth(width);
+                box.setMaxHeight(height * (size2 / size));
+                Painting(f, box, box.getMaxWidth(), box.getMaxHeight(), "h");
+                pane.getChildren().add(box);
             }
-            hbox.getChildren().add(rectangle);
-        }
-
-        center.getChildren().add(hbox);
-    }*/
+        });
+    }
 }
